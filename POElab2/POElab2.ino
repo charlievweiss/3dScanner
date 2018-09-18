@@ -21,22 +21,31 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   sensorValue = analogRead(analogInPin);
-  Serial.println(sensorValue);
-  delay(50);
+  delay(20);
   // sweep vertical up
   for (posV = 70; posV <= 110; posV += 1) {
     // sweep horizontal left
     for (posH = 60; posH <= 120; posH +=1) {
       servoH.write(posH);
+      delay(50);
+      sensorValue = analogRead(analogInPin);
+      Serial.print(posH); Serial.print(",");
+      Serial.print(posV); Serial.print(",");
+      Serial.println(sensorValue);
       delay(20);
     }
     // sweep horizontal right
     for (posH = 120; posH >= 60; posH -=1) {
       servoH.write(posH); 
+      delay(50);
+      sensorValue = analogRead(analogInPin);
+      Serial.print(posH); Serial.print(",");
+      Serial.print(posV); Serial.print(",");
+      Serial.println(sensorValue);
       delay(20);
     }
     servoV.write(posV); 
-    delay(50)
+    delay(50);
     }
   
 
