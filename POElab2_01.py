@@ -6,6 +6,8 @@ serialPort = serial.Serial(arduinoComPort, baudRate, timeout=1)
 readings = []
 posH = 0 #temporay value so the for loop can be implemented
 posV = 0 #temporay value so the for loop can be implemented
+
+
 while int(posV) <= 110:
   #
   # ask for a line of data from the serial port, the ".decode()" converts the
