@@ -6,8 +6,8 @@ Servo servoV;
  
 const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
 int sensorValue = 0; 
-int posH = 60; // horizontal servo
-int posV = 70; // vertical servo // we may want to change this, it might be too angled
+int posH = 70; // horizontal servo
+int posV = 80; // vertical servo // we may want to change this, it might be too angled
 
 
 void setup() {
@@ -19,34 +19,40 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  sensorValue = analogRead(analogInPin);
-  delay(20);
-  // sweep vertical up
-  for (posV = 70; posV <= 110; posV += 1) {
-    // sweep horizontal left
-    for (posH = 60; posH <= 120; posH +=1) {
-      servoH.write(posH);
-      delay(50);
-      sensorValue = analogRead(analogInPin);
-      Serial.print(posH); Serial.print(",");
-      Serial.print(posV); Serial.print(",");
-      Serial.println(sensorValue);
-      delay(20);
+  delay(5000);
+    while (posV <= 99) {
+    // put your main code here, to run repeatedly:
+    sensorValue = analogRead(analogInPin);
+    delay(10);
+    // sweep vertical up
+    for (posV = 80; posV <= 100; posV += 1) {
+      // sweep horizontal left
+      if (posH < 100) {
+        for (posH = 70; posH <= 110; posH +=1) {
+          servoH.write(posH);
+          delay(20);
+          sensorValue = analogRead(analogInPin);
+          Serial.print(posH); Serial.print(",");
+          Serial.print(posV); Serial.print(",");
+          Serial.println(sensorValue);
+          delay(20);
+        }
+      }
+      // sweep horizontal right
+      else if (posH > 100) {
+        for (posH = 110; posH >= 70; posH -=1) {
+          servoH.write(posH); 
+          delay(20);
+          sensorValue = analogRead(analogInPin);
+          Serial.print(posH); Serial.print(",");
+          Serial.print(posV); Serial.print(",");
+          Serial.println(sensorValue);
+          delay(20);
+        }
+      }
+      servoV.write(posV); 
+      delay(10);
+      }
     }
-    // sweep horizontal right
-    for (posH = 120; posH >= 60; posH -=1) {
-      servoH.write(posH); 
-      delay(50);
-      sensorValue = analogRead(analogInPin);
-      Serial.print(posH); Serial.print(",");
-      Serial.print(posV); Serial.print(",");
-      Serial.println(sensorValue);
-      delay(20);
-    }
-    servoV.write(posV); 
-    delay(50);
-    }
-  
 
 }

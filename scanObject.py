@@ -4,6 +4,7 @@
 import serial
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
 class ScanObject(object):
@@ -15,6 +16,8 @@ class ScanObject(object):
         self.x = []
         self.y = []
         self.z = []
+        self.rangeV = range(80,100)
+        self.rangeH = range(70,110)
         self.posH = 0 #temporay value for horizontal position of servo
         self.posV = 0 #temporay value for vertical position of servo
         self.reading = 0 # stores reading from IR sensor
@@ -22,18 +25,22 @@ class ScanObject(object):
     def getData(self):
         # ask for a line of data from the serial port, the ".decode()" converts the
         # data from an "array of bytes", to a string
-        lineOfData = serialPort.readline().decode()
+        lineOfData = self.serialPort.readline().decode()
         # check if data was received
-        if len(lineOfData) > 0:
-            self.posH, self.posV, self.reading = lineOfData.split(",")
-            print(self.posH + ',' + self.posV + ',' + self.reading)
+        if len(lineOfData.split(",")) > 2:
+            # print(lineOfData)
+            lineOfData = lineOfData.split(",")
+            self.posH, self.posV, self.reading = lineOfData[0], lineOfData[1], lineOfData[2]
+            print(str(self.posH) + ',' + str(self.posV) + ',' + str(self.reading))
             self.posH = int(self.posH)
             self.posV = int(self.posV)
             self.reading = int(self.reading)
             self.x.append(self.posH)
             self.y.append(self.posV)
             self.z.append(self.reading)
-            #readings.append((posH, posV, IRsensor))
+            # readings.append((posH, posV, IRsensor))
+        else:
+            time.sleep(.003)
 
     def plotDataContour(self, X, Y, Z):
         plt.contourf(X,Y,Z,20,cmap='RdGy')
@@ -44,10 +51,14 @@ class ScanObject(object):
         plt.show()
 
     def run(self):
-        while int(posV) <= 110:
+        while int(self.posV) <= 99:
             self.getData()
-        self.plotDataContour()
-        plt.close('all') #ability to close figure
+        print(len(self.z))
+        if len(self.z) == (len(self.rangeV) * len(self.rangeH)):
+            self.z = np.array(self.z)
+            self.z = z.reshape((len(self.rangeV), len(self.rangeH)))
+            self.plotDataContour(self.rangeV,self.rangeH,z,[0,600])
+            plt.close('all') #ability to close figure
 
 if __name__ == '__main__':
     func = ScanObject()
