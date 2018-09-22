@@ -12,12 +12,13 @@ class ScanObject(object):
         self.arduinoComPort = "COM4"
         self.baudRate = 9600
         self.serialPort = serial.Serial(self.arduinoComPort, self.baudRate, timeout=1)
+        self.rangeV = range(80,100)
+        self.rangeH = range(70,110)
         self.readings = []
         self.x = []
         self.y = []
         self.z = []
-        self.rangeV = range(80,100)
-        self.rangeH = range(70,110)
+        self.Zmat = np.zeros((len(self.rangeV), len(self.rangeH)))
         self.posH = 0 #temporay value for horizontal position of servo
         self.posV = 0 #temporay value for vertical position of servo
         self.reading = 0 # stores reading from IR sensor
@@ -38,6 +39,7 @@ class ScanObject(object):
             self.x.append(self.posH)
             self.y.append(self.posV)
             self.z.append(self.reading)
+            self.Zmat[(self.posV-1-self.rangeV[0]), (self.posH-1-self.rangeH[0])] = self.reading
             # readings.append((posH, posV, IRsensor))
         else:
             time.sleep(.003)
@@ -54,11 +56,11 @@ class ScanObject(object):
         while int(self.posV) <= 99:
             self.getData()
         print(len(self.z))
-        if len(self.z) == (len(self.rangeV) * len(self.rangeH)):
-            self.z = np.array(self.z)
-            self.z = z.reshape((len(self.rangeV), len(self.rangeH)))
-            self.plotDataContour(self.rangeV,self.rangeH,z,[0,600])
-            plt.close('all') #ability to close figure
+        # if len(self.z) == (len(self.rangeV) * len(self.rangeH)):
+            # self.z = np.array(self.z)
+            # self.z = z.reshape((len(self.rangeV), len(self.rangeH)))
+        self.plotDataContour(self.rangeH,self.rangeV,self.Zmat)
+        plt.close('all') #ability to close figure
 
 if __name__ == '__main__':
     func = ScanObject()
