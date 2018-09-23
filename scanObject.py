@@ -36,6 +36,12 @@ class ScanObject(object):
             self.posH = int(self.posH)
             self.posV = int(self.posV)
             self.reading = int(self.reading)
+            # adjust with trig
+            r = self.reading * np.sin(np.radians(90-self.posV))
+            newX = r*np.cos(np.radians(self.posH))
+            newY = r*np.sin(np.radians(self.posH))
+            newZ = self.reading * np.cos(np.radians(90-self.posV))
+            """IF THERE ARE PROBLEMS IT'S UP HERE"""
             self.x.append(self.posH)
             self.y.append(self.posV)
             self.z.append(self.reading)
