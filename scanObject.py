@@ -12,7 +12,7 @@ class ScanObject(object):
         self.arduinoComPort = "COM4"
         self.baudRate = 9600
         self.serialPort = serial.Serial(self.arduinoComPort, self.baudRate, timeout=1)
-        self.rangeV = range(80,100)
+        self.rangeV = range(80,110)
         self.rangeH = range(70,110)
         self.readings = []
         self.x = []
@@ -53,7 +53,7 @@ class ScanObject(object):
         plt.show()
 
     def run(self):
-        while int(self.posV) <= 99:
+        while int(self.posV) <= 109:
             self.getData()
         print(len(self.z))
         # if len(self.z) == (len(self.rangeV) * len(self.rangeH)):

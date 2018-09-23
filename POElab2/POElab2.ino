@@ -20,38 +20,39 @@ void setup() {
 
 void loop() {
   delay(5000);
-    while (posV <= 99) {
+    while (posV <= 109) {
     // put your main code here, to run repeatedly:
     sensorValue = analogRead(analogInPin);
-    delay(10);
+    delay(20);
     // sweep vertical up
-    for (posV = 80; posV <= 100; posV += 1) {
+    for (posV = 80; posV <= 110; posV += 1) {
+      servoV.write(posV); 
       // sweep horizontal left
       if (posH < 100) {
         for (posH = 70; posH <= 110; posH +=1) {
           servoH.write(posH);
-          delay(20);
+          delay(100);
           sensorValue = analogRead(analogInPin);
           Serial.print(posH); Serial.print(",");
           Serial.print(posV); Serial.print(",");
           Serial.println(sensorValue);
-          delay(20);
+          delay(100);
         }
       }
       // sweep horizontal right
       else if (posH > 100) {
         for (posH = 110; posH >= 70; posH -=1) {
           servoH.write(posH); 
-          delay(20);
+          delay(100);
           sensorValue = analogRead(analogInPin);
           Serial.print(posH); Serial.print(",");
           Serial.print(posV); Serial.print(",");
           Serial.println(sensorValue);
-          delay(20);
+          delay(100);
         }
       }
-      servoV.write(posV); 
-      delay(10);
+      
+      delay(20);
       }
     }
 
