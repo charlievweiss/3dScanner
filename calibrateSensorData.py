@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 class CalibrateSensor(object):
     def __init__(self):
         # Measured values for calibration
-        self.x_calib = np.array([0, 50, 400, 650, 1023]) # x coordinates (voltage readings)
-        self.y_calib = np.array([0, 20, 50, 100, 150]) # y coordinates (distances)
+        self.x_calib = np.array([464, 363, 265, 218, 203]) # x coordinates (voltage readings)
+        self.y_calib = np.array([24, 33, 45, 55, 60]) # y coordinates (distances)
         # Measure values for error check
-        self.x_check = np.array([20,300,500,800]) # voltage readings
-        self.y_check = np.array([50,80,90,120]) # distances
+        self.x_check = np.array([428,395,304,246]) # voltage readings
+        self.y_check = np.array([27,30,40,50]) # distances
         # x and y arrays for plotting
         self.x_calibPoly = []
         self.y_calibPoly = []
@@ -31,7 +31,7 @@ class CalibrateSensor(object):
         # use coefficients to create poly
         polyFunc = np.poly1d(z)
         # create new array of x and y values
-        new_x = np.linspace(0,1023,15)
+        new_x = np.linspace(50,500,15)
         new_y = polyFunc(new_x)
         return new_x, new_y
 
@@ -52,7 +52,7 @@ class CalibrateSensor(object):
         plt.plot(self.x_checkPoly, self.y_error, 'go', label='Error')
         plt.ylabel('Distance (cm)')
         plt.xlabel("Sensor Reading")
-        plt.legend(loc='upper left')
+        plt.legend(loc='upper right')
         plt.title('Calibration Data')
         plt.show()
         # 
