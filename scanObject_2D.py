@@ -9,7 +9,7 @@ import time
 
 class ScanObject(object):
     def __init__(self):
-        self.arduinoComPort = "COM4"
+        self.arduinoComPort = "/dev/ttyACM0"#"COM4"
         self.baudRate = 9600
         self.serialPort = serial.Serial(self.arduinoComPort, self.baudRate, timeout=1)
         self.rangeV = range(80,110)
@@ -38,9 +38,9 @@ class ScanObject(object):
             self.reading = int(self.reading)
             # adjust with trig
             r = self.reading * np.sin(np.radians(90-self.posV))
-            newX = r*np.cos(np.radians(self.posH))
-            newY = r*np.sin(np.radians(self.posH))
-            newZ = self.reading * np.cos(np.radians(90-self.posV))
+            #newX = r*np.cos(np.radians(self.posH))
+            #newY = r*np.sin(np.radians(self.posH))
+            #newZ = self.reading * np.cos(np.radians(90-self.posV))
             """IF THERE ARE PROBLEMS IT'S UP HERE"""
             self.x.append(self.posH)
             self.y.append(self.posV)
